@@ -36,10 +36,10 @@ describe("About Applying What We Have Learnt", function() {
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
       var productsICanEat = [];
 
-      /* solve using filter() & all() / any() */
+      /* solve using filter() & all() / any() (.every() && .some() ?)*/
       productsICanEat = products.filter(function(product){
-        return (product.containsNuts === false) &&
-         !(product.ingredients.match(/[mushrooms]/gi));
+        return !(product.containsNuts === true) &&
+               !(product.ingredients.some(x => x === "mushrooms"));
       });
 
       expect(productsICanEat.length).toBe(1);
@@ -60,9 +60,9 @@ describe("About Applying What We Have Learnt", function() {
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = Array.from(new Array(1000), (_,i)=> i).reduce((sum, ele)=> (ele%3 ===0 || ele%5 ===0) ? sum + ele : sum);    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   /*********************************************************************************/
@@ -75,15 +75,17 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(3);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
+    _.flatten(products.map(prod => prod.ingredients)).reduce((_,i) => ingredientCount[i]= (ingredientCount[i]||0)+1)
+    //products.map(prod => prod.ingredients.map(ing => ingredientCount[ing] = (ingredientCount[ing] || 0) +1 ) );
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
